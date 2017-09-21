@@ -11,6 +11,7 @@ public class RoverRunner
     {
         Rover r1 = new Rover("Curiosity");
         Rover r2 = new Rover("Spirit");
+        Rover r3 = new Rover("Erik");
         
         System.out.println(r1);
         
@@ -28,5 +29,14 @@ public class RoverRunner
         
         r1.move();
         System.out.println(r1);
+        
+        r3.move();
+        System.out.println(r3);
+        
+        r3.rotateRight();
+        System.out.println(r3);
+        
+        r3.move();
+        System.out.println(r3);
     }
 }
