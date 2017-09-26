@@ -11,7 +11,8 @@ public class Rover
     String name;
     int x;
     int y;
-    int dir; 
+    int dir;
+    String face; 
     int numPics;
     boolean isAlive;
     // 0=North, 1=North-East, 2=East, 3=South-East, 4=South, 5=South-West, 6=West, 7=North-west
@@ -24,6 +25,7 @@ public class Rover
         this.x = 0;
         this.y = 0;
         this.dir = 0;
+        this.face = "North";
         this.isAlive = true;
     }
     
@@ -33,21 +35,29 @@ public class Rover
         this.x = 0;
         this.y = 0;
         this.dir = 0;
+        this.face = "North";
         this.isAlive = true;
+    }
+
+    public void setName(String name)
+    {
+       this.name = name;
     }
     
     public void takePic()
     {   
       
         this.numPics = this.numPics + 1;
-        System.out.println(name + " took a picture at [" + x + "," + y +"]");
+        System.out.println(name + " took a " + this.face + "facing picture at [" + x + "," + y +"]");
     }
     
-    public void setName(String name)
+    
+     public void selfie()
     {
-       this.name = name;
+        this.numPics += 1;
+        System.out.println(name + " took a " + this.face + "facing selfie at [" + x + "," + y +"]"); 
     }
-    
+
     // methods - stuff the Rover can do
     public void move()
     {
@@ -99,6 +109,42 @@ public class Rover
             
     }
     
+    public void facing()
+    {
+        if (dir == 0)
+            {
+                this.face = "North";
+            }
+            else if (dir == 1)
+            {
+                this.face = "North-East";
+            }
+            else if (dir == 2)
+            {
+                this.face = "East";
+            }
+            else if (dir == 3) 
+            {
+                this.face = "South-East";
+            }
+            else if (dir ==4) 
+            {
+                this.face = "South";
+            }
+            else if (dir == 5) 
+            {
+                this.face = "South-West";
+            }
+            else if (dir == 6) 
+            {
+                this.face = "West";
+            }
+            else if (dir == 7) 
+            {
+                this.face = "North-West";
+            }
+    }
+    
     public void rotateLeft() 
     {
         dir -= 1;
@@ -107,6 +153,7 @@ public class Rover
         {
             dir = 7;
         }
+        facing();
         
         System.out.println(name + " turned to the left");        
     }
@@ -119,7 +166,8 @@ public class Rover
         {
             dir = 0;
         }
-        
+        facing();
+       
         System.out.println(name + " turned to the right");        
     }
     
@@ -136,8 +184,9 @@ public class Rover
         }
     }
     
+
     public String toString() 
     {
-        return "Rover[name=" + name + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", pics=" + numPics + "]";
+        return "Rover[name=" + name + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", face=" + face + ", pics=" + numPics + "]";
     }
 }

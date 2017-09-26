@@ -20,13 +20,16 @@ public class RoverRunner
         
         
         r1.setName("Bob");
+        
         System.out.println(r1);
         
         r1.takePic();
+        r1.selfie();
         
         r3.kill(r1);
         r3.rotateRight();
         System.out.println(r3);
+        
         
         r3.move();
         System.out.println(r3);
