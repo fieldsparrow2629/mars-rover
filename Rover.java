@@ -18,7 +18,11 @@ public class Rover
     // 0=North, 1=North-East, 2=East, 3=South-East, 4=South, 5=South-West, 6=West, 7=North-west
     
     
-    // constructor(s)
+    /**
+     * takes a name and constructs a rover object for it
+     *
+     * @param name name of the rover
+     */ 
     public Rover(String name)
     {
         this.name = name;
@@ -29,7 +33,11 @@ public class Rover
         this.isAlive = true;
     }
     
-    // paramaterless constructor
+    /**
+     * constructs a rover object but without taking in a name
+     *
+     * 
+     */ 
     public Rover()
     {
         this.x = 0;
@@ -38,66 +46,86 @@ public class Rover
         this.face = "North";
         this.isAlive = true;
     }
-
+    
+    /**
+     * allows you to change the namge of a rover
+     *
+     * @param name name you want to change the rover to
+     */ 
     public void setName(String name)
     {
        this.name = name;
     }
     
+    /**
+     * takes a picture, increases num of pics by 1, displays location 
+     *
+     * 
+     */ 
     public void takePic()
     {   
-      
+        getDirectionName(dir);        
         this.numPics = this.numPics + 1;
-        System.out.println(name + " took a " + this.face + "facing picture at [" + x + "," + y +"]");
+        System.out.println(name + " took a " + this.face + " facing picture at [" + x + "," + y +"]");
     }
     
-    
+    /**
+     * takes a selfie, says location, increase # of pics
+     *
+     * @param 
+     */ 
      public void selfie()
     {
+        getDirectionName(dir);
         this.numPics += 1;
-        System.out.println(name + " took a " + this.face + "facing selfie at [" + x + "," + y +"]"); 
+        System.out.println(name + " took a " + this.face + " facing selfie at [" + x + "," + y +"]"); 
     }
 
-    // methods - stuff the Rover can do
-    public void move()
+    /**
+     * moves the rover based off its direction it has stored
+     *
+     * @param numTimes the number of moves the rover will make
+     * in that direction
+     */ 
+    public void move(int numTimes)
     {
         if(isAlive)
         {
             if (dir == 0)
             {
-                y += 1;
+                y += numTimes;
             }
             else if (dir == 1)
             {
-                x += 1;
-                y += 1;
+                x += numTimes;
+                y += numTimes;
             }
             else if (dir == 2)
             {
-                x += 1;
+                x += numTimes;
             }
             else if (dir == 3) 
             {
-                x += 1;
-                y -= 1;
+                x += numTimes;
+                y -= numTimes;
             }
             else if (dir ==4) 
             {
-                y -= 1;
+                y -= numTimes;
             }
             else if (dir == 5) 
             {
-                x -= 1;
-                y -= 1;
+                x -= numTimes;
+                y -= numTimes;
             }
             else if (dir == 6) 
             {
-                x -= 1;
+                x -= numTimes;
             }
             else if (dir == 7) 
             {
-                x -= 1;
-                y += 1;
+                x -= numTimes;
+                y += numTimes;
             }
             
             System.out.println(name + " moved in direction " + dir);
@@ -109,68 +137,80 @@ public class Rover
             
     }
     
-    public void facing()
+    /**
+     * changes the direction from an int to its corresponding
+     * string name
+     *
+     * @param dir the direction: stored as an int value
+     */ 
+    private void getDirectionName(int dir)
     {
-        if (dir == 0)
-            {
-                this.face = "North";
-            }
-            else if (dir == 1)
-            {
-                this.face = "North-East";
-            }
-            else if (dir == 2)
-            {
-                this.face = "East";
-            }
-            else if (dir == 3) 
-            {
-                this.face = "South-East";
-            }
-            else if (dir ==4) 
-            {
-                this.face = "South";
-            }
-            else if (dir == 5) 
-            {
-                this.face = "South-West";
-            }
-            else if (dir == 6) 
-            {
-                this.face = "West";
-            }
-            else if (dir == 7) 
-            {
-                this.face = "North-West";
-            }
+        String face = "null";
+        if (dir == 0){
+            this.face = "North";
+        }
+        else if (dir == 1){
+            this.face = "North-East";    
+        }
+        else if (dir == 2){
+            this.face = "East";    
+        }
+        else if (dir == 3){
+            this.face = "South-East";    
+        }
+        else if (dir == 4){
+            this.face = "South";    
+        }
+        else if (dir == 5){
+            this.face = "South-West";    
+        }
+        else if (dir == 6){
+            this.face = "West";    
+        }
+        else{
+            this.face = "North-West";   
+        }
+
     }
     
-    public void rotateLeft() 
+    /**
+     * rotates the rover 
+     * based off the given in value
+     *
+     * @param turns the number of turns it makes in a left
+     * or right, negative is left, positive is the the right
+     */ 
+    public void rotate(int turns) 
     {
-        dir -= 1;
+        dir += turns;
         
+        String way = "null";
         if (dir < 0)
         {
             dir = 7;
         }
-        facing();
-        
-        System.out.println(name + " turned to the left");        
-    }
-    
-    public void rotateRight()
-    {
-        dir += 1;
-        
-        if (dir == 8)
+        else if(dir == 8)
         {
             dir = 0;
         }
-        facing();
-       
-        System.out.println(name + " turned to the right");        
+        
+        if(turns < 0)
+        {
+            way = "left";
+        }
+        
+        else{
+            way = "right";
+        }
+        System.out.println(name + " turned to the " + way + ", " +turns + " times.");        
     }
     
+    /**
+     * kills another rover
+     * (prevents that rover from doing actions)
+     *
+     * @param enemy the enemy rover that will be killed
+     */ 
     public void kill(Rover enemy)
     {
         if(Math.abs(this.x - enemy.x) <= 1 && Math.abs(this.y - enemy.y) <= 1)
@@ -184,8 +224,12 @@ public class Rover
         }
     }
     
-
-    public String toString() 
+    /**
+     * displays the fields that the object rover contains
+     *
+     * 
+     */ 
+    public String toString()
     {
         return "Rover[name=" + name + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", face=" + face + ", pics=" + numPics + "]";
     }

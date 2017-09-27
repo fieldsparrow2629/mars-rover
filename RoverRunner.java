@@ -15,6 +15,12 @@ public class RoverRunner
         
         
         System.out.println(r2);
+        r2.rotateLeft();
+        System.out.println(r2);
+        r2.takePic();
+        r2.rotateLeft();
+        r2.selfie();
+        
         
         System.out.println(r1);
         
