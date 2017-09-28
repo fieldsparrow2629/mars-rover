@@ -9,59 +9,13 @@ public class RoverRunner
 {
     public static void main(String[] arrrggggggs)
     {
-        Rover r1 = new Rover("Curiosity");
-        Rover r2 = new Rover();
+        Rover r2 = new Rover("Curiosity");
         Rover r3 = new Rover("Spirit");
-        
-        
-        System.out.println(r2);
-        r2.rotateLeft();
+
         System.out.println(r2);
         r2.takePic();
-        r2.rotateLeft();
-        r2.selfie();
-        
-        
-        System.out.println(r1);
-        
-        
-        r1.setName("Bob");
-        
-        System.out.println(r1);
-        
-        r1.takePic();
-        r1.selfie();
-        
-        r3.kill(r1);
-        r3.rotateRight();
-        System.out.println(r3);
-        
-        
-        r3.move();
-        System.out.println(r3);
-        
-        r3.move();
-        System.out.println(r3);
-        
-        r3.move();
-        System.out.println(r3);
-        
-        r3.move();
-        System.out.println(r3);
-        
-        r3.move();
-        System.out.println(r3);
-        
-        r3.rotateRight();
-        System.out.println(r3);
-        
-        r3.move();
-        System.out.println(r3);
-        
-        r3.move();
-        System.out.println(r3);
-        
-        r3.kill(r1);
-        r1.move();
+        r2.move(5);
+        System.out.println(r2);
+  
     }
 }

@@ -15,6 +15,7 @@ public class Rover
     String face; 
     int numPics;
     boolean isAlive;
+    int energy;
     // 0=North, 1=North-East, 2=East, 3=South-East, 4=South, 5=South-West, 6=West, 7=North-west
     
     
@@ -29,6 +30,7 @@ public class Rover
         this.x = 0;
         this.y = 0;
         this.dir = 0;
+        this.energy = 50;
         this.face = "North";
         this.isAlive = true;
     }
@@ -43,6 +45,7 @@ public class Rover
         this.x = 0;
         this.y = 0;
         this.dir = 0;
+        this.energy = 50;
         this.face = "North";
         this.isAlive = true;
     }
@@ -60,75 +63,107 @@ public class Rover
     /**
      * takes a picture, increases num of pics by 1, displays location 
      *
-     * 
      */ 
     public void takePic()
     {   
-        getDirectionName(dir);        
-        this.numPics = this.numPics + 1;
-        System.out.println(name + " took a " + this.face + " facing picture at [" + x + "," + y +"]");
+        getDirectionName(dir);      
+        if(this.numPics > 3)
+        {
+            System.out.println("Error:Memory full");
+        }
+        else{
+            this.numPics = this.numPics + 1;
+            System.out.println(name + " took a " + this.face + " facing picture at [" + x + "," + y +"]");
+        }
+    }
+    
+    /**
+     * takes a picture, increases num of pics by 1, displays location 
+     *
+     */ 
+    public void transmitPictures()
+    {
+       System.out.println("The rover sends the pictures back to earth.");
+       System.out.println(name + " now has zero pictures stored.");
+       this.numPics = 0;
     }
     
     /**
      * takes a selfie, says location, increase # of pics
      *
-     * @param 
      */ 
      public void selfie()
     {
         getDirectionName(dir);
-        this.numPics += 1;
-        System.out.println(name + " took a " + this.face + " facing selfie at [" + x + "," + y +"]"); 
+        if(this.numPics > 2)
+        {
+            System.out.println("Error:Memory full");
+        }
+        else{
+            this.numPics += 1;
+            System.out.println(name + " took a " + this.face + " facing selfie at [" + x + "," + y +"]"); 
+        }
     }
+    
 
     /**
      * moves the rover based off its direction it has stored
+     * requires 1 energy per move
      *
      * @param numTimes the number of moves the rover will make
      * in that direction
      */ 
     public void move(int numTimes)
     {
+        int moves = 0;
         if(isAlive)
+        
         {
-            if (dir == 0)
-            {
-                y += numTimes;
+            while(numTimes > 0 && energy > 0){
+                if (dir == 0)
+                {
+                    y += 1;
+                }
+                else if (dir == 1)
+                {
+                    x += 1;
+                    y += 1;
+                }
+                else if (dir == 2)
+                {
+                    x += 1;
+                }
+                else if (dir == 3) 
+                {
+                    x += 1;
+                    y -= 1;
+                }
+                else if (dir ==4) 
+                {
+                    y -= 1;
+                }
+                else if (dir == 5) 
+                {
+                    x -= 1;
+                    y -= 1;
+                }
+                else if (dir == 6) 
+                {
+                    x -= 1;
+                }
+                else if (dir == 7) 
+                {
+                    x -= 1;
+                    y += 1;
+                }
+                energy -= 1;
+                numTimes -= 1;
+                moves += 1;
             }
-            else if (dir == 1)
-            {
-                x += numTimes;
-                y += numTimes;
-            }
-            else if (dir == 2)
-            {
-                x += numTimes;
-            }
-            else if (dir == 3) 
-            {
-                x += numTimes;
-                y -= numTimes;
-            }
-            else if (dir ==4) 
-            {
-                y -= numTimes;
-            }
-            else if (dir == 5) 
-            {
-                x -= numTimes;
-                y -= numTimes;
-            }
-            else if (dir == 6) 
-            {
-                x -= numTimes;
-            }
-            else if (dir == 7) 
-            {
-                x -= numTimes;
-                y += numTimes;
-            }
-            
-            System.out.println(name + " moved in direction " + dir);
+            System.out.println(name + " moved in direction " + dir +"," + moves + " times.");
+        }
+        else if(energy == 0){
+            System.out.print("Error:Energy depleted.");
         }
         else
         {
@@ -189,7 +224,7 @@ public class Rover
         {
             dir = 7;
         }
-        else if(dir == 8)
+        else if(dir >= 8)
         {
             dir = 0;
         }
@@ -202,7 +237,22 @@ public class Rover
         else{
             way = "right";
         }
-        System.out.println(name + " turned to the " + way + ", " +turns + " times.");        
+        System.out.println(name + " turned to the " + way + ", " +turns + " times."); 
+        getDirectionName(dir);
+    }
+    
+    /**
+     * teleports the rover to a given x and y coordinate
+     * 
+     * @param int x x coordinate
+     * @param in y y coordinate
+     * 
+     */ 
+    public void teleport(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+        System.out.println(name + " teleports to [" + x + "," + y + "].");
     }
     
     /**
@@ -231,6 +281,6 @@ public class Rover
      */ 
     public String toString()
     {
-        return "Rover[name=" + name + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", face=" + face + ", pics=" + numPics + "]";
+        return "Rover[name=" + name + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", face=" + face + ", pics=" + numPics + ", energy=" + energy + "]";
     }
 }
