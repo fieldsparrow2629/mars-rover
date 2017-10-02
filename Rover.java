@@ -9,6 +9,7 @@ public class Rover
 {
     // fields
     String name;
+    int health;
     int x;
     int y;
     int dir;
@@ -16,6 +17,8 @@ public class Rover
     int numPics;
     boolean isAlive;
     int energy;
+    int dmg;
+    
     // 0=North, 1=North-East, 2=East, 3=South-East, 4=South, 5=South-West, 6=West, 7=North-west
     
     
@@ -26,6 +29,7 @@ public class Rover
      */ 
     public Rover(String name)
     {
+        this.health = 15;
         this.name = name;
         this.x = 0;
         this.y = 0;
@@ -33,6 +37,7 @@ public class Rover
         this.energy = 50;
         this.face = "North";
         this.isAlive = true;
+        this.dmg = 5;
     }
     
     /**
@@ -42,12 +47,14 @@ public class Rover
      */ 
     public Rover()
     {
+        this.health = 15;
         this.x = 0;
         this.y = 0;
         this.dir = 0;
         this.energy = 50;
         this.face = "North";
         this.isAlive = true;
+        this.dmg = 5;
     }
     
     /**
@@ -66,11 +73,13 @@ public class Rover
      */ 
     public void takePic()
     {   
-        getDirectionName(dir);      
+        getDirectionName(dir);
+        
         if(this.numPics > 3)
         {
             System.out.println("Error:Memory full");
         }
+        
         else{
             this.numPics = this.numPics + 1;
             System.out.println(name + " took a " + this.face + " facing picture at [" + x + "," + y +"]");
@@ -90,18 +99,27 @@ public class Rover
     
     /**
      * takes a selfie, says location, increase # of pics
+     * requires 1 energy
      *
      */ 
      public void selfie()
     {
         getDirectionName(dir);
-        if(this.numPics > 2)
-        {
-            System.out.println("Error:Memory full");
+        
+        if(this.energy > 0){
+            if(this.numPics > 2)
+            {
+                System.out.println("Error:Memory full");
+            }
+            else{
+                this.numPics += 1;
+                System.out.println(name + " took a " + this.face + " facing selfie at [" + x + "," + y +"]");
+            }
+            this.energy -= 1;
         }
+        
         else{
-            this.numPics += 1;
-            System.out.println(name + " took a " + this.face + " facing selfie at [" + x + "," + y +"]"); 
+            System.out.println("Error:Not enough energy.");
         }
     }
     
@@ -109,6 +127,7 @@ public class Rover
     /**
      * moves the rover based off its direction it has stored
      * requires 1 energy per move
+     * creates a loop, running as many times as the # of moves
      *
      * @param numTimes the number of moves the rover will make
      * in that direction
@@ -162,7 +181,8 @@ public class Rover
             }
             System.out.println(name + " moved in direction " + dir +"," + moves + " times.");
         }
-        else if(energy == 0){
+        
+        if(this.energy == 0){
             System.out.print("Error:Energy depleted.");
         }
         else
@@ -217,32 +237,47 @@ public class Rover
      */ 
     public void rotate(int turns) 
     {
-        dir += turns;
         
-        String way = "null";
-        if (dir < 0)
-        {
-            dir = 7;
-        }
-        else if(dir >= 8)
-        {
-            dir = 0;
+        String whichWay = "null";
+        int count = 0;
+        while(turns != 0 && energy > 0){
+            
+            if(turns < 0){
+                dir -= 1;
+                turns += 1;
+                count += 1;
+                whichWay = "left";
+            }
+            else{
+                dir += 1;
+                turns -= 1;
+                count +=1;
+                whichWay = "right";
+            }
+            
+            if (dir < 0)
+            {
+                dir = 7;
+            }
+            else if(dir == 8)
+            {
+                dir = 0;
+            }
+            
+            this.energy -= 1;
+        }    
+        
+        if(this.energy == 0){
+            System.out.println("Error: Energy depleted.");
         }
         
-        if(turns < 0)
-        {
-            way = "left";
-        }
-        
-        else{
-            way = "right";
-        }
-        System.out.println(name + " turned to the " + way + ", " +turns + " times."); 
+        System.out.println(name + " turned to the " + whichWay + ", " + count + " times."); 
         getDirectionName(dir);
     }
     
     /**
      * teleports the rover to a given x and y coordinate
+     * requires 5 energy
      * 
      * @param int x x coordinate
      * @param in y y coordinate
@@ -250,29 +285,65 @@ public class Rover
      */ 
     public void teleport(int x, int y)
     {
-        this.x = x;
-        this.y = y;
-        System.out.println(name + " teleports to [" + x + "," + y + "].");
+        if(this.isAlive){
+            if(this.energy >= 5){
+                this.x = x;
+                this.y = y;
+                System.out.println(name + " teleports to [" + x + "," + y + "].");
+                this.energy -= 5;
+            }
+            else{
+                System.out.println("Error:Not enough energy.");
+            }
+        }
+        else{
+            System.out.println(this.name + " is dead.");
+        }
     }
     
     /**
-     * kills another rover
-     * (prevents that rover from doing actions)
+     * replenishes the rovers energy based off of the input int
+     * max energy is 50
      *
-     * @param enemy the enemy rover that will be killed
+     * @param amnt the amount of energy thats restored
      */ 
-    public void kill(Rover enemy)
+    public void restore(int amnt)
     {
-        if(Math.abs(this.x - enemy.x) <= 1 && Math.abs(this.y - enemy.y) <= 1)
-        {
-            System.out.println(this.name + " kills " + enemy.name);
-            enemy.isAlive = false;
+        if(this.energy + amnt >= 50){
+            this.energy = 50;
         }
-        else
-        {
-            System.out.println(this.name + " not close enough to kill " + enemy.name);
+        else{
+            this.energy += amnt;
+        }
+        System.out.println(this.name + " charged to " + this.energy + " units of energy.");
+    }
+    
+    /**
+     * makes one rover attack another, based off of dmg 
+     * and health fields
+     *
+     * @param enemy the enemy rover who is being attacked
+     */ 
+    public void attack(Rover enemy)
+    {
+        System.out.println(this.name + " attacks " + enemy.name + "...");
+        
+        if(enemy.health == 0){
+            System.out.println(enemy.name + " is already dead.");
+        }
+        
+        enemy.health -= this.dmg;
+        if(enemy.isAlive){
+            if(enemy.health <= 0){
+                System.out.println(this.name + " kills " + enemy.name + ".");
+                enemy.isAlive = false;
+            }
+            else{
+                System.out.println(this.name + " deals " + this.dmg + " damage to " + enemy.name + ".");
+            }
         }
     }
+    
     
     /**
      * displays the fields that the object rover contains

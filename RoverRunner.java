@@ -14,8 +14,22 @@ public class RoverRunner
 
         System.out.println(r2);
         r2.takePic();
-        r2.move(5);
+        r2.move(15);
         System.out.println(r2);
+        r2.rotate(-50);
+        System.out.println(r2);
+        r2.move(50);
+        
+        r2.restore(10);
+        r2.attack(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        r3.move(4);
+        r3.move(4);
+        r3.move(4);
+        r3.move(4);
+        
   
     }
 }
