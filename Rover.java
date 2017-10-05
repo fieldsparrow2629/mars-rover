@@ -344,6 +344,9 @@ public class Rover
         }
     }
     
+    public String getName(){
+        return name;
+    }
     
     /**
      * displays the fields that the object rover contains
