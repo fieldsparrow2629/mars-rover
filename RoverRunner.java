@@ -45,6 +45,9 @@ public class RoverRunner
                     actor.move(distance);
                     
                 }
+                else if(command.equals("take pic")){
+                    actor.takePic();
+                }
                 else if(command.equals("rotate")) {
                     System.out.print("Enter how much to rotate: ");
                     int distance = input.readInt();

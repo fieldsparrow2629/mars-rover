@@ -75,7 +75,7 @@ public class Rover
     {   
         getDirectionName(dir);
         
-        if(this.numPics > 3)
+        if(this.numPics >= 6)
         {
             System.out.println("Error:Memory full");
         }
@@ -134,7 +134,7 @@ public class Rover
      */ 
     public void move(int numTimes)
     {
-        int moves = 0;
+        int moves = numTimes;
         if(isAlive)
         
         {
@@ -177,7 +177,6 @@ public class Rover
                 }
                 energy -= 1;
                 numTimes -= 1;
-                moves += 1;
             }
             System.out.println(name + " moved in direction " + dir +"," + moves + " times.");
         }
@@ -202,28 +201,28 @@ public class Rover
     {
         String face = "null";
         if (dir == 0){
-            this.face = "North";
+            face = "North";
         }
         else if (dir == 1){
-            this.face = "North-East";    
+            face = "North-East";    
         }
         else if (dir == 2){
-            this.face = "East";    
+            face = "East";    
         }
         else if (dir == 3){
-            this.face = "South-East";    
+            face = "South-East";    
         }
         else if (dir == 4){
-            this.face = "South";    
+            face = "South";    
         }
         else if (dir == 5){
-            this.face = "South-West";    
+            face = "South-West";    
         }
         else if (dir == 6){
-            this.face = "West";    
+            face = "West";    
         }
         else{
-            this.face = "North-West";   
+            face = "North-West";   
         }
 
     }
@@ -239,19 +238,17 @@ public class Rover
     {
         
         String whichWay = "null";
-        int count = 0;
+        int count = turns;
         while(turns != 0 && energy > 0){
             
             if(turns < 0){
                 dir -= 1;
                 turns += 1;
-                count += 1;
                 whichWay = "left";
             }
             else{
                 dir += 1;
                 turns -= 1;
-                count +=1;
                 whichWay = "right";
             }
             
@@ -355,6 +352,6 @@ public class Rover
      */ 
     public String toString()
     {
-        return "Rover[name=" + name + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", face=" + face + ", pics=" + numPics + ", energy=" + energy + "]";
+        return "Rover[name=" + name + ", health=" + health + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", face=" + face + ", pics=" + numPics + ", energy=" + energy + "]";
     }
 }
