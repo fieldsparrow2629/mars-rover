@@ -181,7 +181,7 @@ public class Rover
             System.out.println(name + " moved in direction " + dir +"," + moves + " times.");
         }
         
-        if(this.energy == 0){
+        else if(this.energy == 0){
             System.out.print("Error:Energy depleted.");
         }
         else

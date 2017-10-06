@@ -48,6 +48,20 @@ public class RoverRunner
                 else if(command.equals("take pic")){
                     actor.takePic();
                 }
+                else if(command.equals("restore")){
+                    System.out.println("How much do you want to restore?");
+                    int amnt = input.readInt();
+                    actor.restore(amnt);
+                    
+                }
+                else if(command.equals("teleport")){
+                    System.out.println("Where do you want to teleport to?");
+                    System.out.println("x = ");
+                    int x = input.readInt();
+                    System.out.println("y = ");
+                    int y = input.readInt();
+                    actor.teleport(x,y);
+                }
                 else if(command.equals("rotate")) {
                     System.out.print("Enter how much to rotate: ");
                     int distance = input.readInt();
