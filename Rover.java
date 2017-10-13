@@ -105,6 +105,22 @@ public class Rover
     }
     
     /**
+     * determines whether the rover can function based on energy and if its
+     * alive
+     * 
+     * 
+     */ 
+    public boolean isFunctioning()
+    {
+        if(this.energy > 0 && this.isAlive){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    /**
      * takes a selfie, says location, increase # of pics
      * requires 1 energy
      *
