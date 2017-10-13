@@ -13,7 +13,6 @@ public class Rover
     int x;
     int y;
     int dir;
-    String face; 
     int numPics;
     boolean isAlive;
     int energy;
@@ -35,7 +34,6 @@ public class Rover
         this.y = 0;
         this.dir = 0;
         this.energy = 50;
-        this.face = "North";
         this.isAlive = true;
         this.dmg = 5;
     }
@@ -52,7 +50,6 @@ public class Rover
         this.y = 0;
         this.dir = 0;
         this.energy = 50;
-        this.face = "North";
         this.isAlive = true;
         this.dmg = 5;
     }
@@ -73,28 +70,38 @@ public class Rover
      */ 
     public void takePic()
     {   
-        getDirectionName(dir);
-        
-        if(this.numPics >= 6)
-        {
-            System.out.println("Error:Memory full");
+        if(this.energy > 0){
+            if(this.numPics >= 6)
+            {
+                System.out.println("Error:Memory full");
+            }
+            
+            else{
+                this.numPics = this.numPics + 1;
+                System.out.println(name + " took a " + getDirectionName() + " facing picture at [" + x + "," + y +"]");
+                this.energy -= 1;
+            }
         }
-        
         else{
-            this.numPics = this.numPics + 1;
-            System.out.println(name + " took a " + this.face + " facing picture at [" + x + "," + y +"]");
+            System.out.println("Error:Not enough energy.");
         }
     }
     
     /**
      * takes a picture, increases num of pics by 1, displays location 
-     *
+     * requires 5 energy
      */ 
     public void transmitPictures()
     {
-       System.out.println("The rover sends the pictures back to earth.");
-       System.out.println(name + " now has zero pictures stored.");
-       this.numPics = 0;
+       if(this.energy > 5){
+           System.out.println("The rover sends the pictures back to earth.");
+           System.out.println(name + " now has zero pictures stored.");
+           this.numPics = 0;
+           this.energy -= 5;
+       }
+       else{
+           System.out.println("Error:Not enough energy");
+       }
     }
     
     /**
@@ -104,8 +111,6 @@ public class Rover
      */ 
      public void selfie()
     {
-        getDirectionName(dir);
-        
         if(this.energy > 0){
             if(this.numPics > 2)
             {
@@ -113,7 +118,7 @@ public class Rover
             }
             else{
                 this.numPics += 1;
-                System.out.println(name + " took a " + this.face + " facing selfie at [" + x + "," + y +"]");
+                System.out.println(name + " took a " + getDirectionName() + " facing selfie at [" + x + "," + y +"]");
             }
             this.energy -= 1;
         }
@@ -195,35 +200,34 @@ public class Rover
      * changes the direction from an int to its corresponding
      * string name
      *
-     * @param dir the direction: stored as an int value
+     * 
      */ 
-    private void getDirectionName(int dir)
+    private String getDirectionName()
     {
-        String face = "null";
         if (dir == 0){
-            face = "North";
+            return "North";
         }
         else if (dir == 1){
-            face = "North-East";    
+            return "North-East";    
         }
         else if (dir == 2){
-            face = "East";    
+            return "East";    
         }
         else if (dir == 3){
-            face = "South-East";    
+            return "South-East";    
         }
         else if (dir == 4){
-            face = "South";    
+            return "South";    
         }
         else if (dir == 5){
-            face = "South-West";    
+            return  "South-West";    
         }
         else if (dir == 6){
-            face = "West";    
+           return "West";    
         }
-        else{
-            face = "North-West";   
-        }
+        else {
+            return "North-West";   
+        }  
 
     }
     
@@ -236,21 +240,19 @@ public class Rover
      */ 
     public void rotate(int turns) 
     {
-        
-        String whichWay = "null";
         int count = turns;
+        int amnt = 1;
+        String whichWay = "right";
+        
+        if(turns < 0){
+            amnt = -1;
+            whichWay = "left";
+        }
+        
         while(turns != 0 && energy > 0){
-            
-            if(turns < 0){
-                dir -= 1;
-                turns += 1;
-                whichWay = "left";
-            }
-            else{
-                dir += 1;
-                turns -= 1;
-                whichWay = "right";
-            }
+            dir += amnt;
+            turns -= 1;
+            this.energy -= 1;
             
             if (dir < 0)
             {
@@ -260,16 +262,14 @@ public class Rover
             {
                 dir = 0;
             }
-            
-            this.energy -= 1;
         }    
         
         if(this.energy == 0){
             System.out.println("Error: Energy depleted.");
         }
         
-        System.out.println(name + " turned to the " + whichWay + ", " + count + " times."); 
-        getDirectionName(dir);
+        System.out.println(name + " turned to the " + whichWay + ", " + count + " times, and is now facing " + getDirectionName() + "."); 
+        
     }
     
     /**
@@ -352,6 +352,6 @@ public class Rover
      */ 
     public String toString()
     {
-        return "Rover[name=" + name + ", health=" + health + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", face=" + face + ", pics=" + numPics + ", energy=" + energy + "]";
+        return "Rover[name=" + name + ", health=" + health + ", alive=" + isAlive + ", x=" + x + ", y=" + y + ", dir=" + dir + ", pics=" + numPics + ", energy=" + energy + "]";
     }
 }
