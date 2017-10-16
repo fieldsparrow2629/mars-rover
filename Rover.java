@@ -14,6 +14,7 @@ public class Rover
     int y;
     int dir;
     int numPics;
+    int mem;
     boolean isAlive;
     int energy;
     int dmg;
@@ -36,6 +37,7 @@ public class Rover
         this.energy = 50;
         this.isAlive = true;
         this.dmg = 5;
+        this.mem = 5;
     }
     
     /**
@@ -52,6 +54,7 @@ public class Rover
         this.energy = 50;
         this.isAlive = true;
         this.dmg = 5;
+        this.mem = 5;
     }
     
     /**
@@ -71,7 +74,7 @@ public class Rover
     public void takePic()
     {   
         if(this.energy > 0){
-            if(this.numPics >= 6)
+            if(this.numPics >= this.mem)
             {
                 System.out.println("Error:Memory full");
             }
@@ -102,22 +105,6 @@ public class Rover
        else{
            System.out.println("Error:Not enough energy");
        }
-    }
-    
-    /**
-     * determines whether the rover can function based on energy and if its
-     * alive
-     * 
-     * 
-     */ 
-    public boolean isFunctioning()
-    {
-        if(this.energy > 0 && this.isAlive){
-            return true;
-        }
-        else{
-            return false;
-        }
     }
     
     /**
