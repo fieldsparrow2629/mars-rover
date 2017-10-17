@@ -115,13 +115,13 @@ public class Rover
      public void selfie()
     {
         if(this.energy > 0){
-            if(this.numPics > 2)
+            if(this.numPics < this.mem)
             {
-                System.out.println("Error:Memory full");
-            }
-            else{
                 this.numPics += 1;
                 System.out.println(name + " took a " + getDirectionName() + " facing selfie at [" + x + "," + y +"]");
+            }
+            else{
+                System.out.println("Error:Memory full");
             }
             this.energy -= 1;
         }
@@ -351,7 +351,7 @@ public class Rover
     /**
      * displays the fields that the object rover contains
      *
-     * 
+     * @return returns a string representation of a rover
      */ 
     public String toString()
     {
